@@ -2,22 +2,66 @@ import { useQuery } from '@tanstack/react-query';
 import style from './LoadingIndicator.module.css';
 import { MovieList } from './MovieList';
 import { actions } from 'astro:actions';
+import { useState } from 'react';
 
 export function SearchResultsList({ search }: { search: string }) {
+	const [currentPage, setCurrentPage] = useState(1);
 	const query = useQuery({
 		placeholderData: (previousData, _previousQuery) => previousData, // `keepPreviousData`
 		// search api doesn't do anything when you search for just one character
-		queryKey: ['search', search.length > 1 ? search : ''],
+		queryKey: ['search', search.length > 1 ? search : '', currentPage],
 		queryFn: async () => {
-			return actions.searchMovies({ search });
+			return actions.searchMovies({ search, page: currentPage });
 		},
+		staleTime: Infinity,
 	});
 	return (
 		<div style={{ marginTop: 8 }}>
 			<LoadingIndicator isLoading={query.isFetching} />
-			<div>Search results for "{search}"</div>
-			<MovieList movies={query.data?.data || []} />
+			<div>
+				Search results for "{search}" ({query.data?.totalResults || 0} results)
+			</div>
+			<div>{query.data?.totalPages}</div>
+			<Pager
+				currentPage={currentPage}
+				totalPages={query.data?.totalPages || 0}
+				onNext={() => setCurrentPage((x) => x + 1)}
+				onPrev={() => setCurrentPage((x) => x - 1)}
+			>
+				<MovieList movies={query.data?.data || []} />
+			</Pager>
 		</div>
+	);
+}
+
+function Pager({
+	currentPage,
+	onPrev,
+	onNext,
+	totalPages,
+	children,
+}: {
+	currentPage: number;
+	onPrev: () => void;
+	onNext: () => void;
+	totalPages: number;
+	children: React.ReactNode;
+}) {
+	return (
+		<>
+			<div style={{ display: 'flex', gap: 10 }}>
+				<button onClick={onPrev} disabled={currentPage === 1} style={{ flex: '0 0 50px' }}>
+					Prev
+				</button>
+				<div style={{ flex: 1 }}>{children}</div>
+				<button onClick={onNext} disabled={currentPage >= totalPages} style={{ flex: '0 0 50px' }}>
+					Next
+				</button>
+			</div>
+			<div>
+				Page {currentPage} out of {totalPages}
+			</div>
+		</>
 	);
 }
 

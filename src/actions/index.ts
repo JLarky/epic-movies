@@ -6,9 +6,10 @@ export const server = {
 		accept: 'json',
 		input: z.object({
 			search: z.string(),
+			page: z.number(),
 		}),
-		handler: async ({ search }) => {
-			return movieSearch({ search });
+		handler: async ({ search, page }) => {
+			return movieSearch({ search, page });
 		},
 	}),
 };

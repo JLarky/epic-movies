@@ -42,8 +42,8 @@ export async function apiCall<T>(path: string): Promise<T> {
 	return data as T;
 }
 
-export function listMovies({ search }: { search?: string } = {}) {
-	const query = search ? '?' + new URLSearchParams({ search }) : '';
+export function listMovies({ search, page }: { search?: string; page?: number } = {}) {
+	const query = search ? '?' + new URLSearchParams({ search, page: String(page || 1) }) : '';
 	return apiCall<{
 		data: Movie[];
 		totalPages: number;
