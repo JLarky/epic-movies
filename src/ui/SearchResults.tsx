@@ -17,11 +17,8 @@ export function useDebounceValue<T>(value: T, delay: number): T {
 	return debouncedValue;
 }
 
-export function SearchResults({ children }: { children?: React.ReactNode }) {
+export function SearchResults() {
 	const debouncedText = useAtomValue(searchDebouncedAtom);
-	if (debouncedText.length < 2) {
-		return <>{children}</>;
-	}
 	return (
 		<QueryProvider>
 			<SearchResultsList search={debouncedText} />

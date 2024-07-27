@@ -1,4 +1,4 @@
-import type { MovieDetails } from '../utils/client';
+import type { Genre, MovieDetails } from '../utils/client';
 import notFound from '../assets/no-image-svgrepo-com.svg'; // Path:
 
 export function MovieList({ movies }: { movies: MovieDetails[] }) {
@@ -39,6 +39,7 @@ export function MovieList({ movies }: { movies: MovieDetails[] }) {
 							{('summary' in movie && movie.summary) || 'No summary provided'}
 						</div>
 					</details>
+					<GenreList genres={movie.genres} />
 				</div>
 			))}
 		</section>
@@ -47,4 +48,14 @@ export function MovieList({ movies }: { movies: MovieDetails[] }) {
 
 function formatRating(rating: string | undefined) {
 	return rating ? ` (${rating})` : '';
+}
+
+function GenreList({ genres }: { genres: Genre[] }) {
+	return (
+		<div style={{ display: 'flex', gap: 4, marginTop: 8 }}>
+			{genres.map((genre) => (
+				<span key={genre.id}>{genre.title}</span>
+			))}
+		</div>
+	);
 }

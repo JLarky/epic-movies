@@ -7,6 +7,7 @@ const headers = {
 };
 
 export type Rating = 'G' | ' PG' | '14A' | '18A' | 'R';
+export type Genre = { id: string; title: string };
 export type Movie = { id: string; title: string; posterUrl: string; rating: Rating };
 export type MovieDetails = {
 	id: string;
@@ -22,7 +23,7 @@ export type MovieDetails = {
 	bestRating: number;
 	worstRating: number;
 	writers: string[];
-	genres: string[];
+	genres: Genre[];
 };
 
 const apiCallCache = new NodeCache();
@@ -42,14 +43,28 @@ export async function apiCall<T>(path: string): Promise<T> {
 	return data as T;
 }
 
-export function listMovies({ search, page }: { search?: string; page?: number } = {}) {
-	const query = search ? '?' + new URLSearchParams({ search, page: String(page || 1) }) : '';
+export function listMovies({
+	search,
+	page,
+	genre,
+}: { search?: string; page?: number; genre?: string } = {}) {
+	const params = new URLSearchParams({ page: String(page || 1) });
+	if (search) {
+		params.set('search', search);
+	}
+	if (genre) {
+		params.set('genre', genre);
+	}
 	return apiCall<{
 		data: Movie[];
 		totalPages: number;
-	}>('/movies' + query);
+	}>('/movies' + '?' + params);
 }
 
 export function getMovieDetails({ id }: { id: string }) {
 	return apiCall<MovieDetails>(`/movies/${encodeURIComponent(id)}`);
+}
+
+export function listGenres() {
+	return apiCall<{ data: Genre[]; totalPages: number }>('/genres/movies');
 }

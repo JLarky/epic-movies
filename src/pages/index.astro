@@ -1,4 +1,5 @@
 ---
+import GenreFilter from '../ui/GenreFilter.astro';
 import Movies from '../ui/Movies.astro';
 import { Search } from '../ui/Search';
 import { SearchResults } from '../ui/SearchResults';
@@ -17,8 +18,9 @@ import { SearchResults } from '../ui/SearchResults';
 		<section>
 			<Search client:load />
 		</section>
-		<SearchResults client:load>
-			<Movies />
-		</SearchResults>
+		<section>
+			<GenreFilter />
+		</section>
+		<SearchResults client:load />
 	</body>
 </html>

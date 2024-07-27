@@ -3,25 +3,27 @@ import style from './LoadingIndicator.module.css';
 import { MovieList } from './MovieList';
 import { actions } from 'astro:actions';
 import { useState } from 'react';
+import { useAtomValue } from 'jotai';
+import { genreAtom } from './searchAtom';
 
 export function SearchResultsList({ search }: { search: string }) {
+	const genre = useAtomValue(genreAtom);
 	const [currentPage, setCurrentPage] = useState(1);
 	const query = useQuery({
 		placeholderData: (previousData, _previousQuery) => previousData, // `keepPreviousData`
 		// search api doesn't do anything when you search for just one character
-		queryKey: ['search', search.length > 1 ? search : '', currentPage],
+		queryKey: ['search', search.length > 1 ? search : '', currentPage, genre],
 		queryFn: async () => {
-			return actions.searchMovies({ search, page: currentPage });
+			return actions.searchMovies({ search, page: currentPage, genre });
 		},
 		staleTime: Infinity,
 	});
 	return (
 		<div style={{ marginTop: 8 }}>
 			<LoadingIndicator isLoading={query.isFetching} />
-			<div>
+			<div style={{ marginBottom: 8 }}>
 				Search results for "{search}" ({query.data?.totalResults || 0} results)
 			</div>
-			<div>{query.data?.totalPages}</div>
 			<Pager
 				currentPage={currentPage}
 				totalPages={query.data?.totalPages || 0}

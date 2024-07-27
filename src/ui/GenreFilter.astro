@@ -1,0 +1,10 @@
+---
+import { listGenres } from '../utils/client';
+import { GenreFilter as GenreFilterClient } from './GenreFilter';
+const { data, totalPages } = await listGenres();
+if (totalPages > 1) {
+	throw new Error('This component is not yet ready for pagination');
+}
+---
+
+<GenreFilterClient genres={data} client:load />

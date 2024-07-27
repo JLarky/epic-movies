@@ -7,9 +7,10 @@ export const server = {
 		input: z.object({
 			search: z.string(),
 			page: z.number(),
+			genre: z.string().optional(),
 		}),
-		handler: async ({ search, page }) => {
-			return movieSearch({ search, page });
+		handler: async ({ search, page, genre }) => {
+			return movieSearch({ search, page, genre });
 		},
 	}),
 };

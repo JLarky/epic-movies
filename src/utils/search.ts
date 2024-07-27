@@ -8,12 +8,20 @@ export type MovieWithDetails = {
 
 const LIMIT = 25;
 
-export async function movieSearch({ search, page }: { search?: string; page?: number } = {}) {
-	const movies = await listMovies({ search, page });
+export async function movieSearch({
+	search,
+	page,
+	genre,
+}: {
+	search?: string;
+	page?: number;
+	genre?: string;
+} = {}) {
+	const movies = await listMovies({ search, page, genre });
 	const totalPages = movies.totalPages;
 	let totalResults = movies.data.length;
 	if (totalPages > 1) {
-		totalResults = await getTotalResults(search ?? '', totalPages);
+		totalResults = await getTotalResults(search ?? '', genre ?? '', totalPages);
 	}
 	const ids = movies.data.map((movie) => movie.id);
 	const promises = ids.map((id) => getMovieDetails({ id }));
@@ -26,8 +34,8 @@ const totalResultsCache = new NodeCache();
 /**
  * call this if you have more than one page of results
  */
-async function getTotalResults(search: string, totalPages: number) {
-	const key = `${search}-${totalPages}`;
+async function getTotalResults(search: string, genre: string, totalPages: number) {
+	const key = `${search}-${totalPages}-${genre}`;
 	const cached = totalResultsCache.get<number>(key);
 	if (cached) {
 		return cached;
@@ -36,7 +44,7 @@ async function getTotalResults(search: string, totalPages: number) {
 		throw new Error('totalPages must be greater than 1');
 	}
 	let totalResults = LIMIT * (totalPages - 1); // the amout of full pages
-	const lastPage = await listMovies({ search, page: totalPages });
+	const lastPage = await listMovies({ search, page: totalPages, genre });
 	totalResults += lastPage.data.length;
 	totalResultsCache.set(key, totalResults);
 	return totalResults;

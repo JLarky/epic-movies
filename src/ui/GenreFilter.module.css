@@ -1,0 +1,7 @@
+.genreButton {
+    cursor: pointer;
+    background-color: #f5f5f5;
+}
+.genreButton:hover {
+    background-color: #e0e0e0;
+}
