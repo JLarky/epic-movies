@@ -5,7 +5,7 @@ import { MovieList } from './MovieList';
 
 export function SearchResultsList({ search }: { search: string }) {
 	const query = useQuery({
-		placeholderData: (previousData, previousQuery) => previousData, // `keepPreviousData`
+		placeholderData: (previousData, _previousQuery) => previousData, // `keepPreviousData`
 		// search api doesn't do anything when you search for just one character
 		queryKey: ['search', search.length > 1 ? search : ''],
 		queryFn: async () => {
