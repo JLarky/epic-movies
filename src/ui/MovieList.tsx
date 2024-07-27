@@ -40,6 +40,9 @@ export function MovieList({ movies }: { movies: MovieDetails[] }) {
 						</div>
 					</details>
 					<GenreList genres={movie.genres} />
+					<div style={{ marginTop: 8, flex: 1 }}>
+						{movie.duration} - {movie.datePublished}
+					</div>
 				</div>
 			))}
 		</section>

@@ -2,13 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 import style from './LoadingIndicator.module.css';
 import { MovieList } from './MovieList';
 import { actions } from 'astro:actions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { genreAtom } from './searchAtom';
 
 export function SearchResultsList({ search }: { search: string }) {
 	const genre = useAtomValue(genreAtom);
 	const [currentPage, setCurrentPage] = useState(1);
+	useEffect(() => {
+		setCurrentPage(1); // reset pagination when search changes
+	}, [search, genre]);
 	const query = useQuery({
 		placeholderData: (previousData, _previousQuery) => previousData, // `keepPreviousData`
 		// search api doesn't do anything when you search for just one character
