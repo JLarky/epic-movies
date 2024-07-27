@@ -1,4 +1,4 @@
-# Client to movies database
+# Client to the movies database
 
 Database https://0kadddxyh3.execute-api.us-east-1.amazonaws.com
 
@@ -9,3 +9,5 @@ To create a new auth token, use the following command:
 ```
 
 This will save the key in the `.env` file (only stored on your computer).
+
+Make sure to set this value in production (where you deploy your code) as an environment variable.
