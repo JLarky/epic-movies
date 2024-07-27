@@ -24,3 +24,7 @@ Make sure to set this value in production (where you deploy your code) as an env
 - obviously the design, I have zero designed components, everything is just using React inline styles :)
 - I wish I had time to debug accessibility of the components
 - Everything is done as an SPA without any state saved to the URL state, which makes using the app a bit clunky 
+- to improve performance:
+  - static files are sent without gzip now :(
+  - images are not optimized, maybe adding some sort of image provider/component would be nice (smaller size and webp)
+  - maybe use Solid instead of React
