@@ -1,5 +1,7 @@
 ---
 import Movies from '../ui/Movies.astro';
+import { Search } from '../ui/Search';
+import { SearchResults } from '../ui/SearchResults';
 ---
 
 <html lang="en">
@@ -12,7 +14,11 @@ import Movies from '../ui/Movies.astro';
 	</head>
 	<body>
 		<h1>Astro</h1>
-		<input type="text" placeholder="Search" />
-		<Movies />
+		<section>
+			<Search client:load />
+		</section>
+		<SearchResults client:load>
+			<Movies />
+		</SearchResults>
 	</body>
 </html>
