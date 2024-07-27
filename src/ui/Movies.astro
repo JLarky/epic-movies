@@ -1,16 +1,9 @@
 ---
 import { listMovies } from '../utils/client';
+import { MovieList } from './MovieList';
 
 const movies = await listMovies();
 ---
 
-{import.meta.env.PUBLIC_KEY}
-{import.meta.env.PUBLIC_API_HOST}
-{
-	movies.data.map((movie) => (
-		<div>
-			<h2>{movie.title}</h2>
-			<p>{movie.posterUrl}</p>
-		</div>
-	))
-}
+<div style="margin-top: 26px"></div>
+<MovieList movies={movies.data} />

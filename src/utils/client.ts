@@ -5,6 +5,7 @@ const headers = {
 };
 
 export type Rating = 'G' | ' PG' | '14A' | '18A' | 'R';
+export type Movie = { id: string; title: string; posterUrl: string; rating: Rating };
 
 export async function apiCall<T>(path: string): Promise<T> {
 	const res = await fetch(`${apiHost}${path}`, { headers });
@@ -15,9 +16,10 @@ export async function apiCall<T>(path: string): Promise<T> {
 	return movies as T;
 }
 
-export function listMovies() {
+export function listMovies({ search }: { search?: string } = {}) {
+	const query = search ? '?' + new URLSearchParams({ search }) : '';
 	return apiCall<{
-		data: { id: string; title: string; posterUrl: string; rating: Rating }[];
+		data: Movie[];
 		totalPages: number;
-	}>('/movies');
+	}>('/movies' + query);
 }
