@@ -22,6 +22,7 @@ Make sure to set this value in production (where you deploy your code) as an env
 
 - pass `const movies = await movieSearch();` to the `initialData` of react-query to fix the initial loading of the page
 - obviously the design, I have zero designed components, everything is just using React inline styles :)
+- maybe good "Nothing found" screen
 - I wish I had time to debug accessibility of the components
 - Everything is done as an SPA without any state saved to the URL state, which makes using the app a bit clunky 
 - to improve performance:
