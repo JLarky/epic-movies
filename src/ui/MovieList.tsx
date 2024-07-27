@@ -1,7 +1,7 @@
-import type { Movie } from '../utils/client';
+import type { MovieDetails } from '../utils/client';
 import notFound from '../assets/no-image-svgrepo-com.svg'; // Path:
 
-export function MovieList({ movies }: { movies: Movie[] }) {
+export function MovieList({ movies }: { movies: MovieDetails[] }) {
 	return (
 		<section
 			style={{
@@ -33,6 +33,12 @@ export function MovieList({ movies }: { movies: Movie[] }) {
 							style={{ objectFit: 'contain', width: '100%', height: '100%' }}
 						/>
 					</div>
+					<details style={{ minHeight: 40, paddingTop: 8 }}>
+						<summary>Summary</summary>
+						<div style={{ marginTop: 8, flex: 1 }}>
+							{('summary' in movie && movie.summary) || 'No summary provided'}
+						</div>
+					</details>
 				</div>
 			))}
 		</section>

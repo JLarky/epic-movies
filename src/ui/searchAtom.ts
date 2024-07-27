@@ -1,5 +1,7 @@
 import { atom } from 'jotai';
 
-export const searchAtom = atom('');
+const initialValue = '';
 
-export const searchDebouncedAtom = atom('');
+export const searchAtom = atom(initialValue);
+
+export const searchDebouncedAtom = atom(initialValue);

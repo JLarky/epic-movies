@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { listMovies } from '../utils/client';
 import style from './LoadingIndicator.module.css';
 import { MovieList } from './MovieList';
+import { actions } from 'astro:actions';
 
 export function SearchResultsList({ search }: { search: string }) {
 	const query = useQuery({
@@ -9,10 +9,9 @@ export function SearchResultsList({ search }: { search: string }) {
 		// search api doesn't do anything when you search for just one character
 		queryKey: ['search', search.length > 1 ? search : ''],
 		queryFn: async () => {
-			return listMovies({ search });
+			return actions.searchMovies({ search });
 		},
 	});
-	console.log(query);
 	return (
 		<div style={{ marginTop: 8 }}>
 			<LoadingIndicator isLoading={query.isFetching} />
