@@ -1,4 +1,3 @@
-import NodeCache from 'node-cache';
 import { getMovieDetails, listMovies, type MovieDetails } from './client';
 
 export type MovieWithDetails = {
@@ -29,14 +28,14 @@ export async function movieSearch({
 	return { data: data, totalPages: movies.totalPages, totalResults };
 }
 
-const totalResultsCache = new NodeCache();
+const totalResultsCache = new Map<string, number>();
 
 /**
  * call this if you have more than one page of results
  */
 async function getTotalResults(search: string, genre: string, totalPages: number) {
 	const key = `${search}-${totalPages}-${genre}`;
-	const cached = totalResultsCache.get<number>(key);
+	const cached = totalResultsCache.get(key);
 	if (cached) {
 		return cached;
 	}

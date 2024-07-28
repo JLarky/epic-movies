@@ -1,5 +1,3 @@
-import NodeCache from 'node-cache';
-
 const apiHost = import.meta.env.PUBLIC_API_HOST;
 
 const headers = {
@@ -26,11 +24,11 @@ export type MovieDetails = {
 	genres: Genre[];
 };
 
-const apiCallCache = new NodeCache();
+const apiCallCache = new Map<string, unknown>();
 
 export async function apiCall<T>(path: string): Promise<T> {
 	// TODO: dont' pass <T> pass valibot maybe?
-	const cached = apiCallCache.get<T>(path);
+	const cached = apiCallCache.get(path) as T | undefined;
 	if (cached) {
 		return cached;
 	}

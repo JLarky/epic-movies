@@ -12,6 +12,11 @@ This will save the key in the `.env` file (only stored on your computer).
 
 Make sure to set this value in production (where you deploy your code) as an environment variable.
 
+## Deploy
+
+    bun run build && bun preview
+    bun deno-deploy
+
 ## Some notes
 
 - instead of using just plain client-side data fetching I'm using Astro action, which allowed me to have better type safety (and it could be even better ;)) and potentially things like hiding the api key from the client, and using stuff like `node-cache` for caching API requests on the server side.
