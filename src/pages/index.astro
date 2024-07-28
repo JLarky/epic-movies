@@ -1,7 +1,7 @@
 ---
 import GenreFilter from '../ui/GenreFilter.astro';
+import MainSection from '../ui/MainSection.astro';
 import { Search } from '../ui/Search';
-import { SearchResults } from '../ui/SearchResults';
 ---
 
 <html lang="en">
@@ -20,6 +20,6 @@ import { SearchResults } from '../ui/SearchResults';
 		<section>
 			<GenreFilter />
 		</section>
-		<SearchResults client:load />
+		<MainSection />
 	</body>
 </html>

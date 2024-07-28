@@ -1,0 +1,20 @@
+---
+import { actions } from 'astro:actions';
+import { SearchResults } from './SearchResults';
+import { QueryClient } from '@tanstack/react-query';
+
+const initialData = await actions.searchMovies({ search: '', page: 1, genre: '' });
+const queryClient = new QueryClient();
+
+await queryClient.prefetchQuery({
+	queryKey: ['posts', 123],
+	queryFn: () => initialData,
+});
+---
+
+<SearchResults
+	serverOnlyProps={() => {
+		return queryClient;
+	}}
+	client:load
+/>

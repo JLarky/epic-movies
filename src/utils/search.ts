@@ -7,6 +7,8 @@ export type MovieWithDetails = {
 
 const LIMIT = 25;
 
+export type MovieSearchResults = Awaited<ReturnType<typeof movieSearch>>;
+
 export async function movieSearch({
 	search,
 	page,

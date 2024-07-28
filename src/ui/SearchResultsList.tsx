@@ -7,6 +7,10 @@ import { useAtomValue } from 'jotai';
 import { genreAtom } from './searchAtom';
 
 export function SearchResultsList({ search }: { search: string }) {
+	const [mounted, setMounted] = useState(false);
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 	const genre = useAtomValue(genreAtom);
 	const [currentPage, setCurrentPage] = useState(1);
 	useEffect(() => {
@@ -21,9 +25,11 @@ export function SearchResultsList({ search }: { search: string }) {
 		},
 		staleTime: Infinity,
 	});
+	console.log('SearchResultsList', query.isFetching, query);
+	// console.log('SearchResultsList', query.isFetching, initialData, query.data);
 	return (
 		<div style={{ marginTop: 8 }}>
-			<LoadingIndicator isLoading={query.isFetching} />
+			{mounted && <LoadingIndicator isLoading={query.isFetching} />}
 			<div style={{ marginBottom: 8 }}>
 				Search results for "{search}" ({query.data?.totalResults || 0} results)
 			</div>
@@ -71,6 +77,7 @@ function Pager({
 }
 
 function LoadingIndicator({ isLoading }: { isLoading: boolean }) {
+	console.log('LoadingIndicator', isLoading);
 	return (
 		<div className={style.indicator}>
 			<div className={style.spinner} hidden={!isLoading} />
